@@ -7,16 +7,19 @@
     <title>Goerli Block Height</title>
     <script src="https://cdn.ethers.io/lib/ethers-5.2.umd.min.js" type="application/javascript"></script>
     <script>
-        const provider = new ethers.providers.Web3Provider(window.ethereum)
-        provider.send("eth_requestAccounts", []).then(()=>{
-            provider.getBlock().then(block =>{
-                document.getElementById("BlockHeight").innerHTML = block.number;
-            })
-        });
+        function getBlock(){
+            const provider = new ethers.providers.Web3Provider(window.ethereum)
+            provider.send("eth_requestAccounts", []).then(()=>{
+                provider.getBlock().then(block =>{
+                    document.getElementById("BlockHeight").innerHTML = block.number;
+                })
+            });
+        }
     </script>
 </head>
 <body>
     <h1>Current Block Height: </h1>
+    <button type="button" onclick="getBlock()">Block Height</button>
     <h2 id="BlockHeight"></h2>
 </body>
 </html>
