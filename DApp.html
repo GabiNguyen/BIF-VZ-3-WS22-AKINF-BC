@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Goerli Block Height</title>
+    <script src="https://cdn.ethers.io/lib/ethers-5.2.umd.min.js" type="application/javascript"></script>
+    <script>
+        const provider = new ethers.providers.Web3Provider(window.ethereum)
+        provider.send("eth_requestAccounts", []).then(()=>{
+            provider.getBlock().then(block =>{
+                document.getElementById("BlockHeight").innerHTML = block.number;
+            })
+        });
+    </script>
+</head>
+<body>
+    <h1>Current Block Height: </h1>
+    <h2 id="BlockHeight"></h2>
+</body>
+</html>
