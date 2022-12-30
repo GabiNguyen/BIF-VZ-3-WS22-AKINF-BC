@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Transfer ERC20 Token</title>
+    <script src="https://cdn.ethers.io/lib/ethers-5.2.umd.min.js" type="application/javascript"></script>
+    <script>
+        function transfer(){
+            const provider = new ethers.providers.Web3Provider(window.ethereum)
+            provider.send("eth_requestAccounts", []).then(()=>{
+                // You can also use an ENS name for the contract address
+                const daiAddress = "0x7a91A861402094a7eF345d2A6f0118A2A1e6029f";
+
+                // The ERC-20 Contract ABI, which is a common contract interface
+                // for tokens (this is the Human-Readable ABI format)
+                const daiAbi = [
+                // Some details about the token
+                "function name() view returns (string)",
+                "function symbol() view returns (string)",
+
+                // Get the account balance
+                "function balanceOf(address) view returns (uint)",
+
+                // Send some of your tokens to someone else
+                "function transfer(address to, uint amount)",
+
+                // An event triggered whenever anyone transfers to someone else
+                "event Transfer(address indexed from, address indexed to, uint amount)"
+                ];
+
+                // The Contract object
+                const daiContract = new ethers.Contract(daiAddress, daiAbi, provider);
+                const daiWithSigner = daiContract.connect(provider.getSigner());
+
+                // Get the balance of an address
+                const signer = provider.getSigner();
+                const address = signer.getAddress();
+
+                daiWithSigner.transfer("0x15433DA387451F9dE4565280C85506CB71aF9376", ethers.utils.parseUnits("10", 18)).then(
+                    console.log
+                )
+            });
+        }
+    </script>
+</head>
+<body>
+    <h1>Submit Transaction: </h1>
+    <button type="button" onclick="transfer()">Click Me!</button>
+</body>
+</html>
